@@ -61,14 +61,6 @@ public final class InitLibraryFragment extends Fragment {
         mCameraPreviewLayout = root.findViewById(R.id.wocr_card_recognition_view);
         mFlashButton = root.findViewById(R.id.wocr_iv_flash_id);
 
-        View enterManuallyButton = root.findViewById(R.id.wocr_tv_enter_card_number_id);
-        enterManuallyButton.setVisibility(View.VISIBLE);
-        enterManuallyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View clickview) {
-                if (mListener != null) mListener.onScanCardCanceled(ScanCardIntent.ADD_MANUALLY_PRESSED);
-            }
-        });
         return root;
     }
 

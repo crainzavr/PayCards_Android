@@ -247,15 +247,6 @@ public class ScanCardFragment extends Fragment {
     }
 
     private void initView(View view) {
-        view.findViewById(R.id.wocr_tv_enter_card_number_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (v.isEnabled()) {
-                    v.setEnabled(false);
-                    if (mListener != null) mListener.onScanCardCanceled(ScanCardIntent.ADD_MANUALLY_PRESSED);
-                }
-            }
-        });
         if(mFlashButton != null) {
             mFlashButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -265,11 +256,8 @@ public class ScanCardFragment extends Fragment {
             });
         }
 
-        TextView paycardsLink = (TextView)view.findViewById(R.id.wocr_powered_by_paycards_link);
         SpannableString link = new SpannableString(getText(R.string.wocr_powered_by_pay_cards));
         link.setSpan(new URLSpan(Constants.PAYCARDS_URL), 0, link.length(), SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
-        paycardsLink.setText(link);
-        paycardsLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void showMainContent() {
