@@ -9,6 +9,8 @@ import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.fragment.app.Fragment;
@@ -296,7 +298,7 @@ public class ScanCardFragment extends Fragment {
     public interface InteractionListener {
         void onScanCardCanceled(@ScanCardIntent.CancelReason int cancelReason);
         void onScanCardFailed(Exception e);
-        void onScanCardFinished(Card card, byte cardImage[]);
+        void onScanCardFinished(@NonNull Card card, byte cardImage[]);
         void onCardRectCalculated(Rect rect);
     }
 }

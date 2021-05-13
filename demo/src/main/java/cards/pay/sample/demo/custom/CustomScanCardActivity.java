@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import cards.pay.paycardsrecognizer.sdk.ui.ScanCardActivity;
@@ -33,7 +34,7 @@ public class CustomScanCardActivity extends ScanCardActivity {
     }
 
     @Override
-    public void onCardRectCalculated(Rect rect) {
+    public void onCardRectCalculated(@NonNull Rect rect) {
         if (textView != null) {
             textView.setY(rect.bottom);
             textView.animate().alpha(1f).setDuration(500);

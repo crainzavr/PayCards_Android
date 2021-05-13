@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,7 +94,7 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
 
     @Override
     @RestrictTo(RestrictTo.Scope.LIBRARY)
-    public void onScanCardFinished(Card card, @Nullable byte cardImage[]) {
+    public void onScanCardFinished(@NonNull Card card, @Nullable byte cardImage[]) {
         Intent intent = new Intent();
         intent.putExtra(ScanCardIntent.RESULT_PAYCARDS_CARD, (Parcelable) card);
         if (cardImage != null) intent.putExtra(ScanCardIntent.RESULT_CARD_IMAGE, cardImage);
@@ -102,7 +103,7 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
     }
 
     @Override
-    public void onCardRectCalculated(Rect rect) {
+    public void onCardRectCalculated(@NonNull Rect rect) {
 
     }
 

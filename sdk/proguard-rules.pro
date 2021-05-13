@@ -65,3 +65,5 @@
 -keep public class **.R$* {
   public *;
 }
+
+-keep class cards.pay.paycardsrecognizer.sdk.ui.ScanCardActivity { *; }
