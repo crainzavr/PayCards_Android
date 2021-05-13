@@ -255,7 +255,10 @@ public class ScanCardFragment extends Fragment {
             mFlashButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    if (mScanManager != null) mScanManager.toggleFlash();
+                    if (mScanManager != null) {
+                        mScanManager.toggleFlash();
+                        mFlashButton.setSelected(!mFlashButton.isSelected());
+                    }
                 }
             });
         }

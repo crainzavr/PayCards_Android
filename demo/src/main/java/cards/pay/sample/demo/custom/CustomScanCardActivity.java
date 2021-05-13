@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import cards.pay.paycardsrecognizer.sdk.ui.ScanCardActivity;
 import cards.pay.sample.demo.R;
@@ -24,6 +23,12 @@ public class CustomScanCardActivity extends ScanCardActivity {
         ViewGroup activityView = getWindow().findViewById(android.R.id.content);
         View customView = LayoutInflater.from(this).inflate(R.layout.custom_scan_view, (ViewGroup) null);
         textView = customView.findViewById(R.id.custom_text_view);
+        customView.findViewById(R.id.custom_close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         activityView.addView(customView);
     }
 
@@ -33,6 +38,8 @@ public class CustomScanCardActivity extends ScanCardActivity {
             textView.setY(rect.bottom);
             textView.animate().alpha(1f).setDuration(500);
         }
+
+        setFlashButtonResource(R.drawable.selector_flash_button);
     }
 
 }

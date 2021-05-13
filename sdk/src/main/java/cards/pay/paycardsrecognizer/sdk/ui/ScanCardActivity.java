@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.ViewCompat;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.GridView;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 
 import cards.pay.paycardsrecognizer.sdk.Card;
 import cards.pay.paycardsrecognizer.sdk.R;
@@ -50,6 +50,11 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
                 }
             }
         }
+    }
+
+    public void setFlashButtonResource(@DrawableRes Integer drawable) {
+        ImageView imageView = findViewById(R.id.wocr_iv_flash_id);
+        imageView.setImageResource(drawable);
     }
 
     private void showInitLibrary() {
