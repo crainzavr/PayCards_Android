@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
+import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
+import cards.pay.sample.demo.custom.CustomScanCardActivity;
+
 public class IntroActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
@@ -26,6 +29,12 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.button_next_custom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToCustomScanActivity();
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -46,4 +55,8 @@ public class IntroActivity extends AppCompatActivity {
         finish();
     }
 
+    private void goToCustomScanActivity() {
+        Intent intent = new ScanCardIntent.Builder(this).build(CustomScanCardActivity.class);
+        startActivity(intent);
+    }
 }

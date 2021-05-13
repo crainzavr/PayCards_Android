@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -71,6 +73,14 @@ public final class CameraPreviewLayout extends FrameLayout {
 
         boolean changed = mCardFrame.setCameraParameters(previewSizeWidth, previewSizeHeight, rotation, cardFrame);
         if (changed && !ViewCompat.isInLayout(this)) requestLayout();
+    }
+
+    /**
+     * Card rect (in view coordinates)
+     */
+    @NonNull
+    public Rect getCardRect() {
+        return mCardFrame.getCardRect();
     }
 
     @Override

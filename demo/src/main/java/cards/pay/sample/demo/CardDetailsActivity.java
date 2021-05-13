@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import cards.pay.paycardsrecognizer.sdk.Card;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent.CancelReason;
+import cards.pay.sample.demo.custom.CustomScanCardActivity;
 import cards.pay.sample.demo.validation.CardExpiryDateValidator;
 import cards.pay.sample.demo.validation.CardHolderValidator;
 import cards.pay.sample.demo.validation.CardNumberValidator;
@@ -83,6 +84,13 @@ public class CardDetailsActivity extends AppCompatActivity {
                 if (validationResult.isValid()) {
                     goToFinalScreen(view);
                 }
+            }
+        });
+        mToolbar.findViewById(R.id.button_next_custom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new ScanCardIntent.Builder(CardDetailsActivity.this).build(CustomScanCardActivity.class);
+                startActivity(intent);
             }
         });
     }

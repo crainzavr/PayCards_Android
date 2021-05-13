@@ -20,4 +20,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+<!--
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/wocr_hint_position_card_in_frame"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        app:wocr_layout_cardAlignGravity="top|center_horizontal"
+        tools:ignore="SpUsage" />
+
+    <TextView
+        android:id="@+id/wocr_powered_by_paycards_link"
+        android:text="@string/wocr_powered_by_pay_cards"
+        app:wocr_layout_cardAlignGravity="bottom|left"
+        tools:ignore="SpUsage"
+        style="@style/wocr_PaycardsButton" />
+-->
+
 </cards.pay.paycardsrecognizer.sdk.camera.widget.CameraPreviewLayout>

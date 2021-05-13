@@ -92,7 +92,11 @@ public final class ScanCardIntent {
         }
 
         public Intent build() {
-            Intent intent = new Intent(mContext, ScanCardActivity.class);
+            return build(ScanCardActivity.class);
+        }
+
+        public Intent build(Class<? extends ScanCardActivity>  scanCardActivityClass) {
+            Intent intent = new Intent(mContext, scanCardActivityClass);
             ScanCardRequest request = new ScanCardRequest(mEnableSound, mScanExpirationDate,
                     mScanCardHolder, mGrabCardImage);
             intent.putExtra(KEY_SCAN_CARD_REQUEST, request);

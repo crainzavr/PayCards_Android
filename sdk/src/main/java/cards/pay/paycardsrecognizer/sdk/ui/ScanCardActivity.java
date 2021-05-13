@@ -1,17 +1,23 @@
 package cards.pay.paycardsrecognizer.sdk.ui;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Parcelable;
+
+import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.fragment.app.Fragment;
 import androidx.core.view.ViewCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.GridView;
 
 import cards.pay.paycardsrecognizer.sdk.Card;
+import cards.pay.paycardsrecognizer.sdk.R;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.camera.RecognitionAvailabilityChecker;
 import cards.pay.paycardsrecognizer.sdk.camera.RecognitionCoreUtils;
@@ -25,6 +31,7 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.wocr_activity_scan);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         getDelegate().onPostCreate(null);
@@ -48,7 +55,7 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
     private void showInitLibrary() {
         Fragment fragment = new InitLibraryFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, fragment, InitLibraryFragment.TAG)
+                .replace(getFragmentContainerId(), fragment, InitLibraryFragment.TAG)
                 .setCustomAnimations(0, 0)
                 .commitNow();
     }
@@ -59,11 +66,16 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
         args.putParcelable(ScanCardIntent.KEY_SCAN_CARD_REQUEST, getScanRequest());
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, fragment, ScanCardFragment.TAG)
+                .replace(getFragmentContainerId(), fragment, ScanCardFragment.TAG)
                 .setCustomAnimations(0, 0)
                 .commitNow();
 
         ViewCompat.requestApplyInsets(findViewById(android.R.id.content));
+    }
+
+    @IdRes
+    private int getFragmentContainerId() {
+        return R.id.fragment_container;
     }
 
     @Override
@@ -82,6 +94,11 @@ public class ScanCardActivity extends AppCompatActivity implements ScanCardFragm
         if (cardImage != null) intent.putExtra(ScanCardIntent.RESULT_CARD_IMAGE, cardImage);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onCardRectCalculated(Rect rect) {
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
@@ -139,6 +141,8 @@ public class ScanCardFragment extends Fragment {
                 if (mFlashButton != null) mFlashButton.setVisibility(isFlashSupported ? View.VISIBLE : View.GONE);
 
                 innitSoundPool();
+
+                mListener.onCardRectCalculated(mCameraPreviewLayout.getCardRect());
             }
 
             @Override
@@ -290,5 +294,6 @@ public class ScanCardFragment extends Fragment {
         void onScanCardCanceled(@ScanCardIntent.CancelReason int cancelReason);
         void onScanCardFailed(Exception e);
         void onScanCardFinished(Card card, byte cardImage[]);
+        void onCardRectCalculated(Rect rect);
     }
 }
