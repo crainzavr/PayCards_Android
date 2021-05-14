@@ -170,7 +170,8 @@ class CardRectCoordsMapper {
         float cameraWidth = getCameraWidthRotated();
 
         // Center crop
-        if (cameraWidth * mViewHeight > cameraHeight * mViewWidth) {
+        //if (cameraWidth * mViewHeight > cameraHeight * mViewWidth) {
+        if (cameraWidth * mViewHeight < cameraHeight * mViewWidth) {
             scale = mViewHeight / cameraHeight;
             translateX = (int) ((mViewWidth - cameraWidth * scale) / 2f);
         } else {
