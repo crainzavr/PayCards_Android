@@ -1,7 +1,8 @@
 package cards.pay.paycardsrecognizer.sdk.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -9,22 +10,20 @@ import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.GridView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.ByteArrayOutputStream;
 
@@ -32,6 +31,7 @@ import cards.pay.paycardsrecognizer.sdk.Card;
 import cards.pay.paycardsrecognizer.sdk.R;
 import cards.pay.paycardsrecognizer.sdk.ScanCardIntent;
 import cards.pay.paycardsrecognizer.sdk.camera.ScanManager;
+import cards.pay.paycardsrecognizer.sdk.camera.TorchManager;
 import cards.pay.paycardsrecognizer.sdk.camera.widget.CameraPreviewLayout;
 import cards.pay.paycardsrecognizer.sdk.ndk.RecognitionResult;
 import cards.pay.paycardsrecognizer.sdk.ui.views.ProgressBarIndeterminate;
@@ -67,6 +67,8 @@ public class ScanCardFragment extends Fragment {
 
     private ScanCardRequest mRequest;
 
+    private BroadcastReceiver mTorchStateReceiver;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,6 +87,15 @@ public class ScanCardFragment extends Fragment {
             mRequest = getArguments().getParcelable(ScanCardIntent.KEY_SCAN_CARD_REQUEST);
         }
         if (mRequest == null) mRequest = ScanCardRequest.getDefault();
+
+        mTorchStateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (mFlashButton != null) {
+                    mFlashButton.setSelected(TorchManager.getTorchStateFromIntent(intent));
+                }
+            }
+        };
     }
 
     @Override
@@ -119,7 +130,7 @@ public class ScanCardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (!isTablet()) {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         } else {
             mCameraPreviewLayout.setBackgroundColor(Color.BLACK);
         }
@@ -206,11 +217,18 @@ public class ScanCardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+                mTorchStateReceiver,
+                TorchManager.getTorchStateIntentFilter()
+        );
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(mTorchStateReceiver);
     }
 
     @Override
@@ -259,7 +277,6 @@ public class ScanCardFragment extends Fragment {
                 public void onClick(final View v) {
                     if (mScanManager != null) {
                         mScanManager.toggleFlash();
-                        mFlashButton.setSelected(!mFlashButton.isSelected());
                     }
                 }
             });

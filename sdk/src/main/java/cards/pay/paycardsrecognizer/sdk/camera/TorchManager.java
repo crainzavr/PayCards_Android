@@ -1,7 +1,14 @@
 package cards.pay.paycardsrecognizer.sdk.camera;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Camera;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
 import cards.pay.paycardsrecognizer.sdk.ndk.RecognitionCore;
@@ -10,6 +17,16 @@ import cards.pay.paycardsrecognizer.sdk.utils.Constants;
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class TorchManager {
+
+    public static IntentFilter getTorchStateIntentFilter() {
+        return new IntentFilter(TORCH_STATE_ACTION_NAME);
+    }
+    public static Boolean getTorchStateFromIntent(@NonNull Intent intent) {
+        return intent.getBooleanExtra(TORCH_STATE_NAME, false);
+    }
+
+    private static final String TORCH_STATE_ACTION_NAME = "TORCH_STATE_ACTION";
+    private static final String TORCH_STATE_NAME = "TORCH_STATE";
 
     private static final boolean DBG = Constants.DEBUG;
     private static final String TAG = "TorchManager";
@@ -22,9 +39,12 @@ public final class TorchManager {
 
     private final RecognitionCore mRecognitionCore;
 
-    public TorchManager(RecognitionCore recognitionCore, Camera camera) {
+    private final Context mContext;
+
+    public TorchManager(RecognitionCore recognitionCore, Camera camera, Context context) {
         mCamera = camera;
         mRecognitionCore = recognitionCore;
+        mContext = context;
     }
 
     public void pause() {
@@ -80,6 +100,14 @@ public final class TorchManager {
                 mTorchTurnedOn = false;
                 CameraConfigurationUtils.setFlashLight(mCamera, false);
             }
+
+            sendBroadcast(mTorchTurnedOn);
+        }
+
+        private void sendBroadcast(Boolean isTorchOn) {
+            Intent intent = new Intent(TORCH_STATE_ACTION_NAME);
+            intent.putExtra(TORCH_STATE_NAME, isTorchOn);
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
         }
     };
 }

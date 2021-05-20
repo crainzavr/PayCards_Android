@@ -81,7 +81,7 @@ class CameraManager {
         mAutoFocusManager = new AutoFocusManager(mCamera, mFocusCallbacks);
         syncAutofocusManager();
 
-        mTorchManager = new TorchManager(mRecognitionCore, mCamera);
+        mTorchManager = new TorchManager(mRecognitionCore, mCamera, mAppContext);
         syncTorchManager();
 
         syncProcessThread(true);
